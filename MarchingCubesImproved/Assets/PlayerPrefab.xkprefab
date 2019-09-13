@@ -1,0 +1,41 @@
+!PrefabAsset
+Id: b594b6b0-d473-4756-b0c5-7ef8ace2d9af
+SerializedVersion: {Xenko: 3.1.0.1}
+Tags: []
+Hierarchy:
+    RootParts:
+        - ref!! e846f6d7-9fd3-4af1-b250-81ce5f1863c5
+    Parts:
+        -   Entity:
+                Id: e846f6d7-9fd3-4af1-b250-81ce5f1863c5
+                Name: Camera
+                Components:
+                    aa18d0baa429a723dfa9ce50a5fc31ea: !TransformComponent
+                        Id: c9ad5d06-d46e-490b-991b-bede91a5e572
+                        Position: {X: 2.6, Y: 0.6, Z: -1.0}
+                        Rotation: {X: 0.0, Y: 0.829037547, Z: 0.0, W: 0.5591929}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    0cbf2832780a80c9cef417873664c66e: !CameraComponent
+                        Id: 20837670-b537-4ebc-857d-e2a3ab83cb8f
+                        Name: null
+                        Projection: Perspective
+                        Slot: 86975d4f-beeb-40a6-a9fc-9a6ce245b68c
+                    21a82b36155dbfecf43b70e352e5e999: !MarchingCubesImproved.BasicCameraController,MarchingCubesImproved
+                        Id: de6b7a45-175d-4b33-81eb-942c87e2ea00
+                        world: null
+                        Gamepad: false
+                        KeyboardMovementSpeed: {X: 5.0, Y: 5.0, Z: 5.0}
+                        TouchMovementSpeed: {X: 0.7, Y: 0.7, Z: 0.3}
+                        SpeedFactor: 5.0
+                        KeyboardRotationSpeed: {X: 3.0, Y: 3.0}
+                        MouseRotationSpeed: {X: 1.0, Y: 1.0}
+                        TouchRotationSpeed: {X: 1.0, Y: 0.7}
+                    11906b603abc2254a808eca284952567: !MarchingCubesImproved.GameProfiler,MarchingCubesImproved
+                        Id: b76b4a74-45b4-4c57-8cd6-3d8c9e5cb47a
+                        Enabled: true
+                        TextColor: {R: 144, G: 238, B: 144, A: 255}
+                        RefreshTime: 500.0
+                        SortingMode: ByTime
+                        FilteringMode: Fps
+                        ResultPage: 1

@@ -1,0 +1,89 @@
+!SceneAsset
+Id: a1fb15ec-7a8d-4b32-ac46-541348a728de
+SerializedVersion: {Xenko: 3.1.0.1}
+Tags: []
+ChildrenIds: []
+Offset: {X: 0.0, Y: 0.0, Z: 0.0}
+Hierarchy:
+    RootParts:
+        - ref!! f5d9151b-5613-46ae-b890-7ac1f1fc9f55
+        - ref!! c8a6d089-8a04-44a3-b7a9-06cc12af6089
+        - ref!! 2c9cf593-d6c1-4682-97dc-3e7eff693c40
+        - ref!! 8f068d85-01ed-479c-9f21-d5d22c4ded9b
+    Parts:
+        -   Entity:
+                Id: 2c9cf593-d6c1-4682-97dc-3e7eff693c40
+                Name: Directional light
+                Components:
+                    536c2b8eb39e2a610ddf33f34112eb73: !TransformComponent
+                        Id: ab789d90-a003-4f8d-9e72-5cfef049c9cc
+                        Position: {X: 0.0, Y: 2.0, Z: 0.0}
+                        Rotation: {X: -0.57357645, Y: 0.0, Z: 0.0, W: 0.819152057}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    3944a81d5bb78af6f00ed0bc14185cb6: !LightComponent
+                        Id: d1e02c0d-8ec7-4d45-99e8-a831e5797158
+                        Type: !LightDirectional
+                            Color: !ColorRgbProvider
+                                Value: {R: 1.0, G: 1.0, B: 1.0}
+                            Shadow:
+                                Enabled: true
+                                Size: Large
+                                DepthRange: {}
+                                PartitionMode: !LightDirectionalShadowMap.PartitionLogarithmic {}
+                                ComputeTransmittance: false
+                                BiasParameters: {}
+                        Intensity: 5.0
+        -   Entity:
+                Id: 8f068d85-01ed-479c-9f21-d5d22c4ded9b
+                Name: World
+                Components:
+                    7bf8682e8a95141131163e54a31f2056: !TransformComponent
+                        Id: 02a7624c-ada4-45f8-a3c8-8900d52ece4b
+                        Position: {X: 0.0, Y: 0.0, Z: 0.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    8c178c744d102c835ae24f24d6183ce0: !MarchingCubesImproved.World,MarchingCubesImproved
+                        Id: f5945b2a-086e-4fdd-8d1e-b54955dfc1a3
+                        chunkSize: 8
+                        worldWidth: 5
+                        worldHeight: 5
+                        worldDepth: 5
+                        isolevel: 0.5
+                        seed: 485972938
+                        chunks: null
+                        PlayerPrefab: b594b6b0-d473-4756-b0c5-7ef8ace2d9af:PlayerPrefab
+                        densityGenerator: null
+        -   Entity:
+                Id: c8a6d089-8a04-44a3-b7a9-06cc12af6089
+                Name: Skybox
+                Components:
+                    672c5dd6658632f0ca17187b2463ee4c: !TransformComponent
+                        Id: cde67b3f-1b2c-422d-b38f-4da9038ea0d1
+                        Position: {X: 0.0, Y: 2.0, Z: -2.0}
+                        Rotation: {X: 0.0, Y: 0.0, Z: 0.0, W: 1.0}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    0c2aee45783fdb539a89d9e7baac8208: !BackgroundComponent
+                        Id: 0a528242-d1af-4a97-9914-218311bb4f2d
+                        Texture: 5b78fdb0-70cc-4f9b-b020-2282cda747f3:Skybox texture
+                    4cc423ab8e5ce1ddd327005be3e73258: !LightComponent
+                        Id: 9bce183f-7c94-4926-a6c9-c1376d7f99ff
+                        Type: !LightSkybox
+                            Skybox: ffb33368-d91b-49dd-98d8-0dc024ae1730:Skybox
+        -   Entity:
+                Id: f5d9151b-5613-46ae-b890-7ac1f1fc9f55
+                Name: Ambient light
+                Components:
+                    8e0fa1e5d87c0ecb4e14c6c1d3a470e2: !TransformComponent
+                        Id: c4bbc346-0f95-4724-87e4-b5474aee6286
+                        Position: {X: 0.0, Y: 2.0, Z: 0.0}
+                        Rotation: {X: 1.131334E-08, Y: -0.9659258, Z: -0.258819044, W: -4.222196E-08}
+                        Scale: {X: 1.0, Y: 1.0, Z: 1.0}
+                        Children: {}
+                    b56bc414e75bf58fb890a55f1404206b: !LightComponent
+                        Id: 46134fa3-a11a-4bfd-bde3-9d4dfae9f20e
+                        Type: !LightAmbient
+                            Color: !ColorRgbProvider
+                                Value: {R: 1.0, G: 1.0, B: 1.0}

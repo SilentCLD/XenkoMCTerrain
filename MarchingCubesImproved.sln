@@ -1,0 +1,31 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.0.0
+MinimumVisualStudioVersion = 16.0.0.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarchingCubesImproved.Windows", "MarchingCubesImproved.Windows\MarchingCubesImproved.Windows.csproj", "{FDFBD343-9E8F-4BC9-892E-2B8EC5898148}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarchingCubesImproved", "MarchingCubesImproved\MarchingCubesImproved.csproj", "{FB9BDC7E-34C2-4F5C-8770-BCF4781CB1F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDFBD343-9E8F-4BC9-892E-2B8EC5898148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDFBD343-9E8F-4BC9-892E-2B8EC5898148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDFBD343-9E8F-4BC9-892E-2B8EC5898148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDFBD343-9E8F-4BC9-892E-2B8EC5898148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB9BDC7E-34C2-4F5C-8770-BCF4781CB1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB9BDC7E-34C2-4F5C-8770-BCF4781CB1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB9BDC7E-34C2-4F5C-8770-BCF4781CB1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB9BDC7E-34C2-4F5C-8770-BCF4781CB1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {771D5E22-6A96-4BE5-9F7E-8878242579BC}
+	EndGlobalSection
+EndGlobal
