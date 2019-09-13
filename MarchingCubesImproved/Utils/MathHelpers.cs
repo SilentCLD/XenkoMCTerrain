@@ -6,7 +6,7 @@ using Xenko.Physics;
 
 namespace MarchingCubesImproved
 {
-    public static class Utils
+    public static class MathHelpers
     {
         public static float Abs(this float n)
         {
@@ -243,10 +243,9 @@ namespace MarchingCubesImproved
         {
             return (value - x1) / (y1 - x1) * (y2 - x2) + x2;
         }
-        
+
         public static BoundingBox FromPoints(VertexPositionNormalTexture[] verts)
         {
-
             Vector3 min = new Vector3(float.MaxValue);
             Vector3 max = new Vector3(float.MinValue);
 
@@ -258,12 +257,11 @@ namespace MarchingCubesImproved
             }
 
             return new BoundingBox(min, max);
-
         }
-        
-        public static HitResult ScreenPositionToWorldPositionRaycast(Vector2 screenPos, CameraComponent camera, Simulation simulation)
-        {
 
+        public static HitResult ScreenPositionToWorldPositionRaycast(Vector2 screenPos, CameraComponent camera,
+            Simulation simulation)
+        {
             Matrix invViewProj = Matrix.Invert(camera.ViewProjectionMatrix);
 
             // Reconstruct the projection-space position in the (-1, +1) range.
@@ -288,9 +286,8 @@ namespace MarchingCubesImproved
 
             // Raycast from the point on the near plane to the point on the far plane and get the collision result
             var result = simulation.Raycast(vectorNear.XYZ(), vectorFar.XYZ());
-            
-            return result;
 
+            return result;
         }
     }
 }

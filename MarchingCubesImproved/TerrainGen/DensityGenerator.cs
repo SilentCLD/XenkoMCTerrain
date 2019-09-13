@@ -31,17 +31,17 @@ namespace MarchingCubesImproved
 
         public float Union(float d1, float d2)
         {
-            return Utils.Min(d1, d2);
+            return MathHelpers.Min(d1, d2);
         }
 
         public float Subtract(float d1, float d2)
         {
-            return Utils.Max(-d1, d2);
+            return MathHelpers.Max(-d1, d2);
         }
 
         public float Intersection(float d1, float d2)
         {
-            return Utils.Max(d1, d2);
+            return MathHelpers.Max(d1, d2);
         }
     }
 }

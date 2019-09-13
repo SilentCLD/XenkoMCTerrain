@@ -11,10 +11,4 @@
     <PackageReference Include="Xenko.UI" Version="3.1.0.1-beta02-0674" />
     <PackageReference Include="Xenko.Core.Assets.CompilerApp" Version="3.1.0.1-beta02-0674" IncludeAssets="build;buildTransitive" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="Assets\TestShader.xksl">
-      <Generator>XenkoShaderKeyGenerator</Generator>
-      <LastGenOutput>TestShader.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
 </Project>

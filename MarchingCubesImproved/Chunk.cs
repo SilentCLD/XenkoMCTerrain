@@ -23,7 +23,7 @@ namespace MarchingCubesImproved
 
         private VertexBufferBinding _vertexBufferBinding;
         private IndexBufferBinding _indexBufferBinding;
-        
+
         public Material material;
         private Mesh mesh;
         ModelComponent modelComponent;
@@ -50,6 +50,7 @@ namespace MarchingCubesImproved
             {
                 return;
             }
+
             Generate();
         }
 
@@ -61,9 +62,9 @@ namespace MarchingCubesImproved
 
             _densityGenerator = world.densityGenerator;
 
-            int worldPosX = (int)position.X;
-            int worldPosY = (int)position.Y;
-            int worldPosZ = (int)position.Z;
+            int worldPosX = (int) position.X;
+            int worldPosY = (int) position.Y;
+            int worldPosZ = (int) position.Z;
 
             points = new Point[chunkSize + 1, chunkSize + 1, chunkSize + 1];
 
@@ -78,7 +79,7 @@ namespace MarchingCubesImproved
                     {
                         points[x, y, z] = new Point(
                             new Vector3(x, y, z),
-                            //_densityGenerator.CalculateDensity(x + worldPosX, y + worldPosY, z + worldPosZ);
+                            //_densityGenerator.CalculateDensity(x + worldPosX, y + worldPosY, z + worldPosZ)
                             _densityGenerator.SphereDensity(x + worldPosX, y + worldPosY, z + worldPosZ, 32)
                         );
                     }
@@ -92,37 +93,35 @@ namespace MarchingCubesImproved
         {
             (verts, tris) = _marchingCubes.CreateMeshData(points);
 
-            if (verts == null)
-                return;
-            
-            if (verts.Length == 0 && _vertexBufferBinding.Buffer != null)
+            if ((verts == null || verts.Length == 0) && _vertexBufferBinding.Buffer != null)
             {
                 _vertexBufferBinding.Buffer.Dispose();
                 _indexBufferBinding.Buffer.Dispose();
                 return;
             }
 
-            if (verts.Length == 0)
+            if (verts == null || verts.Length == 0)
                 return;
-            
+
+            // Copying the generated verts for the collider
+            // TODO Could probably do this a better way..
             colVerts = new Vector3[verts.Length];
             for (int i = 0; i < verts.Length; i++)
             {
                 colVerts[i] = verts[i].Position;
             }
-            
+
             if (mesh == null)
             {
                 CreateMesh();
                 return;
             }
-            
+
             _vertexBufferBinding.Buffer.Dispose();
             _indexBufferBinding.Buffer.Dispose();
             Entity.Remove(modelComponent);
             Entity.Remove(colliderComponent);
             CreateMesh();
-            return;
         }
 
         private void CreateMesh()
@@ -168,11 +167,11 @@ namespace MarchingCubesImproved
             Entity.Add(modelComponent);
 
             // Bounding box for culling (stops rendering the mesh when the camera isn't looking at it)
-            mesh.BoundingBox = Utils.FromPoints(verts);
+            mesh.BoundingBox = MathHelpers.FromPoints(verts);
             mesh.BoundingSphere = BoundingSphere.FromBox(mesh.BoundingBox);
             CreateCollider();
         }
-        
+
         void CreateCollider()
         {
             colliderComponent = new StaticColliderComponent();

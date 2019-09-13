@@ -30,17 +30,17 @@ namespace MarchingCubesImproved
 
         private Vector3 VertexInterpolate(Vector3 p1, Vector3 p2, float v1, float v2)
         {
-            if (Utils.Abs(_isolevel - v1) < 0.000001f)
+            if (MathHelpers.Abs(_isolevel - v1) < 0.000001f)
             {
                 return p1;
             }
 
-            if (Utils.Abs(_isolevel - v2) < 0.000001f)
+            if (MathHelpers.Abs(_isolevel - v2) < 0.000001f)
             {
                 return p2;
             }
 
-            if (Utils.Abs(v1 - v2) < 0.000001f)
+            if (MathHelpers.Abs(v1 - v2) < 0.000001f)
             {
                 return p1;
             }
@@ -91,6 +91,7 @@ namespace MarchingCubesImproved
 
                     _vertexList[i].Position = VertexInterpolate(point1.localPosition, point2.localPosition,
                         point1.density, point2.density);
+                    // TODO Ideally we want to use triplanar mapping or a better way of working out the UV positions..
                     _vertexList[i].TextureCoordinate = UVs[i % 3];
                     _vertexList[i].Normal = Vector3.UnitY;
                 }

@@ -41,17 +41,10 @@ namespace MarchingCubesImproved
         public World world;
         private CameraComponent camComp;
 
-
-        private bool addTerrain = true;
-        private float force = 0.1f;
-        private float range = 3f;
-        private Chunk[] _initChunks;
-
         public override void Start()
         {
             base.Start();
 
-            _initChunks = new Chunk[8];
             camComp = Entity.Get<CameraComponent>();
 
             // Default up-direction
@@ -249,15 +242,6 @@ namespace MarchingCubesImproved
                         Input.UnlockMousePosition();
                         Game.IsMouseVisible = true;
                     }
-
-                    if (Input.IsMouseButtonDown(MouseButton.Left) && !Input.IsKeyDown(Keys.LeftCtrl))
-                    {
-                        RaycastToTerrain(!addTerrain);
-                    }
-                    else if (Input.IsMouseButtonDown(MouseButton.Left) && Input.IsKeyDown(Keys.LeftCtrl))
-                    {
-                        RaycastToTerrain(addTerrain);
-                    }
                 }
 
                 // Handle gestures
@@ -280,58 +264,6 @@ namespace MarchingCubesImproved
                             translation.Y = -composite.DeltaTranslation.Y * TouchMovementSpeed.Y;
                             translation.Z = (float) Math.Log(composite.DeltaScale + 1) * TouchMovementSpeed.Z;
                             break;
-                    }
-                }
-            }
-        }
-
-        private void RaycastToTerrain(bool addTerrain)
-        {
-            var result = Utils.ScreenPositionToWorldPositionRaycast(Input.MousePosition, camComp, this.GetSimulation());
-            if (result.Succeeded)
-            {
-                if (result.Collider.Entity != null)
-                {
-                    Chunk chunk = result.Collider.Entity.Get<Chunk>();
-                    if (chunk == null)
-                        return;
-
-                    EditTerrain(result.Point, addTerrain, force, range);
-                }
-            }
-        }
-
-        private void EditTerrain(Vector3 point, bool addTerrain, float force, float range)
-        {
-            int buildModifier = addTerrain ? 1 : -1;
-
-            int hitX = point.X.Round();
-            int hitY = point.Y.Round();
-            int hitZ = point.Z.Round();
-
-            int intRange = range.Ceil();
-
-            for (int x = -intRange; x <= intRange; x++)
-            {
-                for (int y = -intRange; y <= intRange; y++)
-                {
-                    for (int z = -intRange; z <= intRange; z++)
-                    {
-                        int offsetX = hitX - x;
-                        int offsetY = hitY - y;
-                        int offsetZ = hitZ - z;
-
-                        float distance = Utils.Distance(offsetX, offsetY, offsetZ, point);
-                        if (!(distance <= range)) continue;
-
-                        float modificationAmount = force / distance * 0.5f * buildModifier;
-
-                        float oldDensity = world.GetDensity(offsetX, offsetY, offsetZ);
-                        float newDensity = oldDensity - modificationAmount;
-
-                        newDensity = newDensity.Clamp01();
-
-                        world.SetDensity(newDensity, offsetX, offsetY, offsetZ, true, _initChunks);
                     }
                 }
             }

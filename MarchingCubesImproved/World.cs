@@ -27,11 +27,8 @@ namespace MarchingCubesImproved
         private Material chunkMaterial;
         Stack<Entity> chunkPoolInactive = new Stack<Entity>();
         HashSet<Chunk> chunksToUpdate = new HashSet<Chunk>();
-        private int chunksToUpdatePerFrame = 100;
 
         public Prefab PlayerPrefab;
-
-        //private Bounds worldBounds;
 
         public DensityGenerator densityGenerator;
 
@@ -39,7 +36,8 @@ namespace MarchingCubesImproved
         {
             // TODO This should be moved into a settings script
             (Game).Window.AllowUserResizing = true;
-            
+
+            // Preload a few chunks
             for (int i = 0; i < 10; i++)
             {
                 var chunkEntity = new Entity();
@@ -51,15 +49,15 @@ namespace MarchingCubesImproved
 
             // Make the player and spawn it
             List<Entity> player = PlayerPrefab.Instantiate();
-            player[0].Transform.Position = new Vector3(0.5f, 0.5f, -2f);
+            player[0].Transform.Position = new Vector3(0f, 0f, 64f);
             player[0].Get<BasicCameraController>().world = this;
+            var terrainEditorScript = player[0].GetOrCreate<EditTerrain>();
+            terrainEditorScript.world = this;
+            terrainEditorScript.camComp = player[0].Get<CameraComponent>();
             SceneSystem.SceneInstance.RootScene.Entities.AddRange(player);
-            //player[0].Transform.Rotation = new Quaternion(new Vector3(0, -180, 0), 1);
 
             chunkMaterial = Content.Load<Material>("Ground Material");
             densityGenerator = new DensityGenerator(seed);
-            //worldBounds = new Bounds();
-            UpdateBounds();
 
             chunks = new Dictionary<Vector3, Chunk>(worldWidth * worldHeight * worldDepth);
             CreateChunks();
@@ -88,9 +86,8 @@ namespace MarchingCubesImproved
             else
             {
                 var chunk = new Entity();
-                chunk.GetOrCreate<Chunk>();
                 Entity.AddChild(chunk);
-                return chunk.Get<Chunk>();
+                return chunk.GetOrCreate<Chunk>();
             }
         }
 
@@ -115,13 +112,12 @@ namespace MarchingCubesImproved
 
         public Chunk GetChunk(int x, int y, int z)
         {
-            int newX = Utils.FloorToNearestX(x, chunkSize);
-            int newY = Utils.FloorToNearestX(y, chunkSize);
-            int newZ = Utils.FloorToNearestX(z, chunkSize);
+            int newX = MathHelpers.FloorToNearestX(x, chunkSize);
+            int newY = MathHelpers.FloorToNearestX(y, chunkSize);
+            int newZ = MathHelpers.FloorToNearestX(z, chunkSize);
 
             chunks.TryGetValue(new Vector3(newX, newY, newZ), out Chunk chunk);
             return chunk;
-            //return chunks[new Vector3(newX, newY, newZ)];
         }
 
         public float GetDensity(int x, int y, int z)
@@ -149,8 +145,7 @@ namespace MarchingCubesImproved
             return p;
         }
 
-        public void SetDensity(float density, int worldPosX, int worldPosY, int worldPosZ, bool setReadyForUpdate,
-            Chunk[] initChunks)
+        public void SetDensity(float density, int worldPosX, int worldPosY, int worldPosZ, bool setReadyForUpdate)
         {
             Vector3 dp = new Vector3(worldPosX, worldPosY, worldPosZ);
 
@@ -180,37 +175,10 @@ namespace MarchingCubesImproved
             }
         }
 
-        public void SetDensity(float density, Vector3 pos, bool setReadyForUpdate, Chunk[] initChunks)
+        public void SetDensity(float density, Vector3 pos, bool setReadyForUpdate)
         {
-            SetDensity(density, (int) pos.X, (int) pos.Y, (int) pos.Z, setReadyForUpdate, initChunks);
+            SetDensity(density, (int) pos.X, (int) pos.Y, (int) pos.Z, setReadyForUpdate);
         }
-
-        private void UpdateBounds()
-        {
-            float middleX = worldWidth * chunkSize / 2f;
-            float middleY = worldHeight * chunkSize / 2f;
-            float middleZ = worldDepth * chunkSize / 2f;
-
-            Vector3 midPos = new Vector3(middleX, middleY, middleZ);
-
-            Vector3 size = new Vector3(
-                worldWidth * chunkSize,
-                worldHeight * chunkSize,
-                worldDepth * chunkSize);
-
-            //worldBounds.center = midPos;
-            //worldBounds.size = size;
-        }
-
-        /*public bool IsPointInsideWorld(int x, int y, int z)
-        {
-            return IsPointInsideWorld(new Vector3(x, y, z));
-        }
-
-        public bool IsPointInsideWorld(Vector3 point)
-        {
-            return worldBounds.Contains(point);
-        }*/
 
         private void CreateChunk(int x, int y, int z)
         {
