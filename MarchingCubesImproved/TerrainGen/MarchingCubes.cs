@@ -62,15 +62,27 @@ namespace MarchingCubesImproved
 
             for (int i = 0; i < row.Length; i += 3)
             {
-                _vertices[_vertexIndex] = _vertexList[row[i + 2]];
+                var vertA = _vertexList[row[i + 2]];
+                var vertB = _vertexList[row[i + 1]];
+                var vertC = _vertexList[row[i + 0]];
+                
+                var norm = Vector3.Cross(
+                    vertA.Position - vertB.Position,
+                    vertC.Position - vertB.Position
+                );
+
+                _vertices[_vertexIndex] = vertA;
+                _vertices[_vertexIndex].Normal = norm;
                 _triangles[_vertexIndex] = _vertexIndex;
                 _vertexIndex++;
 
-                _vertices[_vertexIndex] = _vertexList[row[i + 1]];
+                _vertices[_vertexIndex] = vertB;
+                _vertices[_vertexIndex].Normal = norm;
                 _triangles[_vertexIndex] = _vertexIndex;
                 _vertexIndex++;
 
-                _vertices[_vertexIndex] = _vertexList[row[i + 0]];
+                _vertices[_vertexIndex] = vertC;
+                _vertices[_vertexIndex].Normal = norm;
                 _triangles[_vertexIndex] = _vertexIndex;
                 _vertexIndex++;
             }
@@ -93,7 +105,7 @@ namespace MarchingCubesImproved
                         point1.density, point2.density);
                     // TODO Ideally we want to use triplanar mapping or a better way of working out the UV positions..
                     _vertexList[i].TextureCoordinate = UVs[i % 3];
-                    _vertexList[i].Normal = Vector3.UnitY;
+                    _vertexList[i].Normal = Vector3.Zero;
                 }
             }
 
