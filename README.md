@@ -10,4 +10,25 @@ The original implementation is written by Eldemarkki which is available [here](h
 1) Download / Clone the repo
 2) Open the .sln and run
 
-There are a couple of different terrain generation types (found in [DensityGenerator.cs](MarchingCubesImproved/TerrainGen/DensityGenerator.cs)) which can be changed on Line 68 in [Chunk.cs](MarchingCubesImproved/Chunk.cs).
+There are a couple of different terrain generation types (found in [DensityGenerator.cs](MarchingCubesImproved/TerrainGen/DensityGenerator.cs)) which can be changed in [Chunk.cs](MarchingCubesImproved/Chunk.cs) on line 68.
+
+You can increase / decrease the world size by changing the worldWidth, worldHeight or worldDepth in [World.cs](MarchingCubesImproved/World.cs) on lines 17-19 (the larger the world the more time it'll take it initially generate).
+
+#### Controls
+`Ctrl + Shift + P` - Toggle Debug stats
+
+`F1` - Cycle Debug stats page
+
+`Right Click` - Rotate Camera
+
+`W A S D ` - Move
+
+`Left Click` - Decrease Terrain Density (Remove Terrain)
+
+`Ctrl + Left Click` - Increase Terrain Density (Add Terrain)
+
+#### Screenshots
+
+![Sphere Image](docs/Sphere.png)
+
+![Building Image](docs/Building.png)
