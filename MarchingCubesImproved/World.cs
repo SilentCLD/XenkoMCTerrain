@@ -12,11 +12,11 @@ namespace MarchingCubesImproved
 {
     public class World : AsyncScript
     {
-        public int chunkSize = 8;
+        private int chunkSize = 16;
 
-        public int worldWidth = 4;
-        public int worldHeight = 4;
-        public int worldDepth = 4;
+        private int worldWidth = 4;
+        private int worldHeight = 4;
+        private int worldDepth = 4;
 
         public float isolevel = 0.5f;
 

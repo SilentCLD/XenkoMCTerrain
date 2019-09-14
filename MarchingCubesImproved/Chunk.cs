@@ -16,7 +16,6 @@ namespace MarchingCubesImproved
 {
     public class Chunk : StartupScript
     {
-        //public bool readyForUpdate;
         public Point[,,] points;
         public int chunkSize;
         public Vector3 position;
@@ -39,21 +38,7 @@ namespace MarchingCubesImproved
         private VertexPositionNormalTexture[] verts;
         private int[] tris;
         private Vector3[] colVerts;
-
-        public bool initialized;
-
-        public bool ShouldUpdate;
-
-        public override void Start()
-        {
-            if (!initialized)
-            {
-                return;
-            }
-
-            Generate();
-        }
-
+        
         public void Initialize(World world, int chunkSize, Vector3 position)
         {
             this.chunkSize = chunkSize;
@@ -86,7 +71,7 @@ namespace MarchingCubesImproved
                 }
             }
 
-            initialized = true;
+            Generate();
         }
 
         public void Generate()
