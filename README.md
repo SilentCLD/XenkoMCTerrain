@@ -15,20 +15,15 @@ There are a couple of different terrain generation types (found in [DensityGener
 You can increase / decrease the world size by changing the worldWidth, worldHeight or worldDepth in [World.cs](MarchingCubesImproved/World.cs) on lines 17-19 (the larger the world the more time it'll take it initially generate).
 
 #### Controls
-`Ctrl + Shift + P` - Toggle Debug stats
-
-`F1` - Cycle Debug stats page
-
-`Right Click` - Rotate Camera
-
-`W A S D ` - Move
-
-`Left Click` - Decrease Terrain Density (Remove Terrain)
-
-`Ctrl + Left Click` - Increase Terrain Density (Add Terrain)
+* `Ctrl + Shift + P` - Toggle Debug stats
+* `F1` - Cycle Debug stats page
+* `Right Click` - Rotate Camera
+* `W A S D` - Move
+* `Left Click` - Decrease Density (Remove Terrain)
+* `Ctrl + Left Click` - Increase Density (Add Terrain)
 
 #### Screenshots
 
-![Sphere Image](docs/Sphere.png)
+![Sphere Image](docs/Sphere.png "Sphere Generation")
 
-![Building Image](docs/Building.png)
+![Building Image](docs/Terrain.png "Terrain Generation")

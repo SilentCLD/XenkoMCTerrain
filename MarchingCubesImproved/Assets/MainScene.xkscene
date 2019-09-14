@@ -18,7 +18,7 @@ Hierarchy:
                     536c2b8eb39e2a610ddf33f34112eb73: !TransformComponent
                         Id: ab789d90-a003-4f8d-9e72-5cfef049c9cc
                         Position: {X: 0.0, Y: 2.0, Z: 0.0}
-                        Rotation: {X: -0.57357645, Y: 0.0, Z: 0.0, W: 0.819152057}
+                        Rotation: {X: -0.342020124, Y: 0.0, Z: 0.0, W: 0.9396926}
                         Scale: {X: 1.0, Y: 1.0, Z: 1.0}
                         Children: {}
                     3944a81d5bb78af6f00ed0bc14185cb6: !LightComponent
@@ -46,10 +46,6 @@ Hierarchy:
                         Children: {}
                     8c178c744d102c835ae24f24d6183ce0: !MarchingCubesImproved.World,MarchingCubesImproved
                         Id: f5945b2a-086e-4fdd-8d1e-b54955dfc1a3
-                        chunkSize: 8
-                        worldWidth: 5
-                        worldHeight: 5
-                        worldDepth: 5
                         isolevel: 0.5
                         seed: 485972938
                         chunks: null
