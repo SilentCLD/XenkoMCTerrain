@@ -14,9 +14,7 @@ namespace MarchingCubesImproved
         private VertexPositionNormalTexture[] _vertexList;
         private Point[] _initPoints;
         private int[,,] _cubeIndexes;
-
-        private readonly Vector3 zero = Vector3.Zero;
-
+        
         public MarchingCubes(Point[,,] points, float isolevel, int seed)
         {
             _isolevel = isolevel;
@@ -212,16 +210,16 @@ namespace MarchingCubesImproved
             return vertexCount;
         }
 
-        public static readonly Vector3[] CubePoints =
+        public static readonly Vector3Int[] CubePoints =
         {
-            new Vector3(0, 0, 0),
-            new Vector3(1, 0, 0),
-            new Vector3(1, 0, 1),
-            new Vector3(0, 0, 1),
-            new Vector3(0, 1, 0),
-            new Vector3(1, 1, 0),
-            new Vector3(1, 1, 1),
-            new Vector3(0, 1, 1)
+            new Vector3Int(0, 0, 0),
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(1, 0, 1),
+            new Vector3Int(0, 0, 1),
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(1, 1, 0),
+            new Vector3Int(1, 1, 1),
+            new Vector3Int(0, 1, 1)
         };
 
         public static readonly int[] CubePointsX =

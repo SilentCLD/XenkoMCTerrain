@@ -10,7 +10,7 @@ namespace MarchingCubesImproved
     {
         public Point[,,] points;
         public int chunkSize;
-        public Vector3 position;
+        public Vector3Int position;
 
         private VertexBufferBinding _vertexBufferBinding;
         private IndexBufferBinding _indexBufferBinding;
@@ -32,7 +32,7 @@ namespace MarchingCubesImproved
         private int[] tris;
         private Vector3[] colVerts;
 
-        public void Initialize(World world, int chunkSize, Vector3 position)
+        public void Initialize(World world, int chunkSize, Vector3Int position)
         {
             _commandList = Game.GraphicsContext.CommandList;
 
@@ -41,10 +41,6 @@ namespace MarchingCubesImproved
             _isolevel = world.isolevel;
 
             _densityGenerator = world.densityGenerator;
-
-            int worldPosX = (int) position.X;
-            int worldPosY = (int) position.Y;
-            int worldPosZ = (int) position.Z;
 
             points = new Point[chunkSize + 1, chunkSize + 1, chunkSize + 1];
 
@@ -60,7 +56,7 @@ namespace MarchingCubesImproved
                         points[x, y, z] = new Point(
                             new Vector3(x, y, z),
                             //_densityGenerator.CalculateDensity(x + worldPosX, y + worldPosY, z + worldPosZ)
-                            _densityGenerator.SphereDensity(x + worldPosX, y + worldPosY, z + worldPosZ, 32)
+                            _densityGenerator.SphereDensity(x + position.X, y + position.Y, z + position.Z, 32)
                         );
                     }
                 }
@@ -186,9 +182,9 @@ namespace MarchingCubesImproved
             points[x, y, z].density = density;
         }
 
-        public void SetDensity(float density, Vector3 pos)
+        public void SetDensity(float density, Vector3Int pos)
         {
-            SetDensity(density, (int) pos.X, (int) pos.Y, (int) pos.Z);
+            SetDensity(density, pos.X, pos.Y, pos.Z);
         }
     }
 }

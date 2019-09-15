@@ -147,13 +147,13 @@ namespace MarchingCubesImproved
 
         public void SetDensity(float density, int worldPosX, int worldPosY, int worldPosZ, bool setReadyForUpdate)
         {
-            Vector3 dp = new Vector3(worldPosX, worldPosY, worldPosZ);
+            Vector3Int dp = new Vector3Int(worldPosX, worldPosY, worldPosZ);
 
             Vector3 lastChunkPos = dp.FloorToNearestX(chunkSize);
 
             for (int i = 0; i < 8; i++)
             {
-                Vector3 chunkPos = (dp - MarchingCubes.CubePoints[i]).FloorToNearestX(chunkSize);
+                Vector3Int chunkPos = (dp - MarchingCubes.CubePoints[i]).FloorToNearestX(chunkSize);
 
                 if (i != 0 && chunkPos == lastChunkPos)
                 {
@@ -166,7 +166,7 @@ namespace MarchingCubesImproved
 
                 lastChunkPos = chunk.position;
 
-                Vector3 localPos = (dp - chunk.position).Mod(chunkSize + 1);
+                Vector3Int localPos = (dp - chunk.position).Mod(chunkSize + 1);
 
                 chunk.SetDensity(density, localPos);
 
@@ -182,7 +182,7 @@ namespace MarchingCubesImproved
 
         private void CreateChunk(int x, int y, int z)
         {
-            Vector3 position = new Vector3(x, y, z);
+            Vector3Int position = new Vector3Int(x, y, z);
 
             Chunk newChunk = GetChunkFromPool();
 

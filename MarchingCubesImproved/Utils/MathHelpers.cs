@@ -111,6 +111,15 @@ namespace MarchingCubesImproved
             return new Vector3(_x, _y, _z);
         }
 
+        public static Vector3Int FloorToNearestX(this Vector3Int n, int x)
+        {
+            int _x = FloorToNearestX(n.X, x);
+            int _y = FloorToNearestX(n.Y, x);
+            int _z = FloorToNearestX(n.Z, x);
+
+            return new Vector3Int(_x, _y, _z);
+        }
+
         public static Vector3 CeilToNearestX(this Vector3 n, int x)
         {
             int _x = CeilToNearestX(n.X, x);
@@ -127,6 +136,15 @@ namespace MarchingCubesImproved
             int _z = Mod((int) n.Z, x);
 
             return new Vector3(_x, _y, _z);
+        }
+
+        public static Vector3Int Mod(this Vector3Int n, int x)
+        {
+            int _x = Mod(n.X, x);
+            int _y = Mod(n.Y, x);
+            int _z = Mod(n.Z, x);
+
+            return new Vector3Int(_x, _y, _z);
         }
 
         public static bool IsBetween(this int value, int min, int max)
