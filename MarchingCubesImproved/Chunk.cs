@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xenko.Core;
-using Xenko.Core.Mathematics;
-using Xenko.Input;
+﻿using Xenko.Core.Mathematics;
 using Xenko.Engine;
 using Xenko.Graphics;
 using Xenko.Physics;
@@ -22,6 +14,7 @@ namespace MarchingCubesImproved
 
         private VertexBufferBinding _vertexBufferBinding;
         private IndexBufferBinding _indexBufferBinding;
+        private CommandList _commandList;
 
         public Material material;
         private Mesh mesh;
@@ -38,9 +31,11 @@ namespace MarchingCubesImproved
         private VertexPositionNormalTexture[] verts;
         private int[] tris;
         private Vector3[] colVerts;
-        
+
         public void Initialize(World world, int chunkSize, Vector3 position)
         {
+            _commandList = Game.GraphicsContext.CommandList;
+
             this.chunkSize = chunkSize;
             this.position = position;
             _isolevel = world.isolevel;
@@ -102,11 +97,23 @@ namespace MarchingCubesImproved
                 return;
             }
 
-            _vertexBufferBinding.Buffer.Dispose();
-            _indexBufferBinding.Buffer.Dispose();
-            Entity.Remove(modelComponent);
-            Entity.Remove(colliderComponent);
-            CreateMesh();
+            // Only remake the buffers if we're trying to put in more than it can handle
+            if (_vertexBufferBinding.Buffer.IsDisposed || verts.Length >= _vertexBufferBinding.Buffer.ElementCount)
+            {
+                _vertexBufferBinding.Buffer.Dispose();
+                _indexBufferBinding.Buffer.Dispose();
+                Entity.Remove(modelComponent);
+                Entity.Remove(colliderComponent);
+                CreateMesh();
+            }
+            else
+            {
+                _vertexBufferBinding.Buffer.SetData(_commandList, verts);
+                _indexBufferBinding.Buffer.SetData(_commandList, tris);
+                mesh.Draw.DrawCount = tris.Length;
+                Entity.Remove(colliderComponent);
+                CreateCollider();
+            }
         }
 
         private void CreateMesh()
@@ -114,13 +121,13 @@ namespace MarchingCubesImproved
             var vbo = Xenko.Graphics.Buffer.Vertex.New(
                 GraphicsDevice,
                 verts,
-                GraphicsResourceUsage.Default
+                GraphicsResourceUsage.Dynamic
             );
 
             var ibo = Xenko.Graphics.Buffer.Index.New(
                 GraphicsDevice,
                 tris,
-                GraphicsResourceUsage.Default
+                GraphicsResourceUsage.Dynamic
             );
 
             _vertexBufferBinding =
