@@ -12,25 +12,25 @@ namespace MarchingCubesImproved
 {
     public class World : AsyncScript
     {
-        private int chunkSize = 16;
+        private const int ChunkSize = 16;
 
-        private int worldWidth = 4;
-        private int worldHeight = 4;
-        private int worldDepth = 4;
+        private const int WorldWidth = 4;
+        private const int WorldHeight = 4;
+        private const int WorldDepth = 4;
 
-        public float isolevel = 0.5f;
+        public const float Isolevel = 0.5f;
 
-        public int seed = 485972938;
+        public const int Seed = 485972938;
 
-        public Dictionary<Vector3, Chunk> chunks;
+        public Dictionary<Vector3, Chunk> Chunks;
 
-        private Material chunkMaterial;
-        Stack<Entity> chunkPoolInactive = new Stack<Entity>();
-        HashSet<Chunk> chunksToUpdate = new HashSet<Chunk>();
+        private Material _chunkMaterial;
+        private Stack<Entity> _chunkPoolInactive = new Stack<Entity>();
+        private HashSet<Chunk> _chunksToUpdate = new HashSet<Chunk>();
 
         public Prefab PlayerPrefab;
 
-        public DensityGenerator densityGenerator;
+        public DensityGenerator DensityGenerator;
 
         public override async Task Execute()
         {
@@ -44,7 +44,7 @@ namespace MarchingCubesImproved
                 chunkEntity.GetOrCreate<Chunk>();
                 Entity.AddChild(chunkEntity);
                 chunkEntity.EnableAll(false, true);
-                chunkPoolInactive.Push(chunkEntity);
+                _chunkPoolInactive.Push(chunkEntity);
             }
 
             // Make the player and spawn it
@@ -52,24 +52,24 @@ namespace MarchingCubesImproved
             player[0].Transform.Position = new Vector3(0f, 0f, 64f);
             player[0].Get<BasicCameraController>().world = this;
             var terrainEditorScript = player[0].GetOrCreate<EditTerrain>();
-            terrainEditorScript.world = this;
-            terrainEditorScript.camComp = player[0].Get<CameraComponent>();
+            terrainEditorScript.World = this;
+            terrainEditorScript.CamComp = player[0].Get<CameraComponent>();
             SceneSystem.SceneInstance.RootScene.Entities.AddRange(player);
 
-            chunkMaterial = Content.Load<Material>("Ground Material");
-            densityGenerator = new DensityGenerator(seed);
+            _chunkMaterial = Content.Load<Material>("Ground Material");
+            DensityGenerator = new DensityGenerator(Seed);
 
-            chunks = new Dictionary<Vector3, Chunk>(worldWidth * worldHeight * worldDepth);
+            Chunks = new Dictionary<Vector3, Chunk>(WorldWidth * WorldHeight * WorldDepth);
             CreateChunks();
 
             while (Game.IsRunning)
             {
-                foreach (Chunk chunk in chunksToUpdate)
+                foreach (Chunk chunk in _chunksToUpdate)
                 {
                     chunk.Generate();
                 }
 
-                chunksToUpdate.Clear();
+                _chunksToUpdate.Clear();
 
                 await Script.NextFrame();
             }
@@ -77,9 +77,9 @@ namespace MarchingCubesImproved
 
         Chunk GetChunkFromPool()
         {
-            if (chunkPoolInactive.Count > 0)
+            if (_chunkPoolInactive.Count > 0)
             {
-                var chunk = chunkPoolInactive.Pop().Get<Chunk>();
+                var chunk = _chunkPoolInactive.Pop().Get<Chunk>();
                 chunk.Entity.EnableAll(true, true);
                 return chunk;
             }
@@ -93,13 +93,13 @@ namespace MarchingCubesImproved
 
         private void CreateChunks()
         {
-            for (int x = -worldWidth; x < worldWidth; x++)
+            for (int x = -WorldWidth; x < WorldWidth; x++)
             {
-                for (int y = -worldHeight; y < worldHeight; y++)
+                for (int y = -WorldHeight; y < WorldHeight; y++)
                 {
-                    for (int z = -worldDepth; z < worldDepth; z++)
+                    for (int z = -WorldDepth; z < WorldDepth; z++)
                     {
-                        CreateChunk(x * chunkSize, y * chunkSize, z * chunkSize);
+                        CreateChunk(x * ChunkSize, y * ChunkSize, z * ChunkSize);
                     }
                 }
             }
@@ -112,11 +112,11 @@ namespace MarchingCubesImproved
 
         public Chunk GetChunk(int x, int y, int z)
         {
-            int newX = MathHelpers.FloorToNearestX(x, chunkSize);
-            int newY = MathHelpers.FloorToNearestX(y, chunkSize);
-            int newZ = MathHelpers.FloorToNearestX(z, chunkSize);
+            int newX = MathHelpers.FloorToNearestX(x, ChunkSize);
+            int newY = MathHelpers.FloorToNearestX(y, ChunkSize);
+            int newZ = MathHelpers.FloorToNearestX(z, ChunkSize);
 
-            chunks.TryGetValue(new Vector3(newX, newY, newZ), out Chunk chunk);
+            Chunks.TryGetValue(new Vector3(newX, newY, newZ), out Chunk chunk);
             return chunk;
         }
 
@@ -124,7 +124,7 @@ namespace MarchingCubesImproved
         {
             Point p = GetPoint(x, y, z);
 
-            return p.density;
+            return p.Density;
         }
 
         public float GetDensity(Vector3 pos)
@@ -138,9 +138,9 @@ namespace MarchingCubesImproved
             if (chunk == null)
                 return new Point(Vector3.Zero, 0);
 
-            Point p = chunk.GetPoint(x.Mod(chunkSize),
-                y.Mod(chunkSize),
-                z.Mod(chunkSize));
+            Point p = chunk.GetPoint(x.Mod(ChunkSize),
+                y.Mod(ChunkSize),
+                z.Mod(ChunkSize));
 
             return p;
         }
@@ -149,11 +149,11 @@ namespace MarchingCubesImproved
         {
             Vector3Int dp = new Vector3Int(worldPosX, worldPosY, worldPosZ);
 
-            Vector3 lastChunkPos = dp.FloorToNearestX(chunkSize);
+            Vector3 lastChunkPos = dp.FloorToNearestX(ChunkSize);
 
             for (int i = 0; i < 8; i++)
             {
-                Vector3Int chunkPos = (dp - MarchingCubes.CubePoints[i]).FloorToNearestX(chunkSize);
+                Vector3Int chunkPos = (dp - MarchingCubes.CubePoints[i]).FloorToNearestX(ChunkSize);
 
                 if (i != 0 && chunkPos == lastChunkPos)
                 {
@@ -164,14 +164,14 @@ namespace MarchingCubesImproved
                 if (chunk == null)
                     return;
 
-                lastChunkPos = chunk.position;
+                lastChunkPos = chunk.Position;
 
-                Vector3Int localPos = (dp - chunk.position).Mod(chunkSize + 1);
+                Vector3Int localPos = (dp - chunk.Position).Mod(ChunkSize + 1);
 
                 chunk.SetDensity(density, localPos);
 
                 if (setReadyForUpdate)
-                    chunksToUpdate.Add(chunk);
+                    _chunksToUpdate.Add(chunk);
             }
         }
 
@@ -187,10 +187,10 @@ namespace MarchingCubesImproved
             Chunk newChunk = GetChunkFromPool();
 
             newChunk.Entity.Transform.Position = position;
-            newChunk.material = chunkMaterial;
-            newChunk.Initialize(this, chunkSize, position);
+            newChunk.Material = _chunkMaterial;
+            newChunk.Initialize(this, ChunkSize, position);
 
-            chunks.Add(position, newChunk);
+            Chunks.Add(position, newChunk);
         }
     }
 }

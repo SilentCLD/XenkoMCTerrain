@@ -4,13 +4,13 @@ namespace MarchingCubesImproved
 {
     public struct Point
     {
-        public Vector3 localPosition;
-        public float density;
+        public Vector3 LocalPosition;
+        public float Density;
 
         public Point(Vector3 localPosition, float density)
         {
-            this.localPosition = localPosition;
-            this.density = density;
+            this.LocalPosition = localPosition;
+            this.Density = density;
         }
     }
 }

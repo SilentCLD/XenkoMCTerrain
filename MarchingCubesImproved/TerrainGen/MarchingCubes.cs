@@ -99,8 +99,8 @@ namespace MarchingCubesImproved
                     Point point1 = points[edge1];
                     Point point2 = points[edge2];
 
-                    _vertexList[i].Position = VertexInterpolate(point1.localPosition, point2.localPosition,
-                        point1.density, point2.density);
+                    _vertexList[i].Position = VertexInterpolate(point1.LocalPosition, point2.LocalPosition,
+                        point1.Density, point2.Density);
                     // TODO Ideally we want to use triplanar mapping or a better way of working out the UV positions..
                     _vertexList[i].TextureCoordinate = UVs[i % 3];
                     _vertexList[i].Normal = Vector3.Zero;
@@ -123,7 +123,7 @@ namespace MarchingCubesImproved
             int cubeIndex = 0;
 
             for (int i = 0; i < 8; i++)
-                if (points[i].density < iso)
+                if (points[i].Density < iso)
                     cubeIndex |= 1 << i;
 
             return cubeIndex;

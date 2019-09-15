@@ -8,18 +8,18 @@ namespace MarchingCubesImproved
 {
     public class Chunk : StartupScript
     {
-        public Point[,,] points;
-        public int chunkSize;
-        public Vector3Int position;
+        private Point[,,] points;
+        private int _chunkSize;
+        public Vector3Int Position;
 
         private VertexBufferBinding _vertexBufferBinding;
         private IndexBufferBinding _indexBufferBinding;
         private CommandList _commandList;
 
-        public Material material;
-        private Mesh mesh;
-        ModelComponent modelComponent;
-        StaticColliderComponent colliderComponent;
+        public Material Material;
+        private Mesh _mesh;
+        private ModelComponent _modelComponent;
+        private StaticColliderComponent _colliderComponent;
 
 
         private float _isolevel;
@@ -36,15 +36,15 @@ namespace MarchingCubesImproved
         {
             _commandList = Game.GraphicsContext.CommandList;
 
-            this.chunkSize = chunkSize;
-            this.position = position;
-            _isolevel = world.isolevel;
+            this._chunkSize = chunkSize;
+            this.Position = position;
+            _isolevel = World.Isolevel;
+            _seed = World.Seed;
 
-            _densityGenerator = world.densityGenerator;
+            _densityGenerator = world.DensityGenerator;
 
             points = new Point[chunkSize + 1, chunkSize + 1, chunkSize + 1];
 
-            _seed = world.seed;
             _marchingCubes = new MarchingCubes(points, _isolevel, _seed);
 
             for (int x = 0; x < points.GetLength(0); x++)
@@ -87,7 +87,7 @@ namespace MarchingCubesImproved
                 colVerts[i] = verts[i].Position;
             }
 
-            if (mesh == null)
+            if (_mesh == null)
             {
                 CreateMesh();
                 return;
@@ -98,16 +98,16 @@ namespace MarchingCubesImproved
             {
                 _vertexBufferBinding.Buffer.Dispose();
                 _indexBufferBinding.Buffer.Dispose();
-                Entity.Remove(modelComponent);
-                Entity.Remove(colliderComponent);
+                Entity.Remove(_modelComponent);
+                Entity.Remove(_colliderComponent);
                 CreateMesh();
             }
             else
             {
                 _vertexBufferBinding.Buffer.SetData(_commandList, verts);
                 _indexBufferBinding.Buffer.SetData(_commandList, tris);
-                mesh.Draw.DrawCount = tris.Length;
-                Entity.Remove(colliderComponent);
+                _mesh.Draw.DrawCount = tris.Length;
+                Entity.Remove(_colliderComponent);
                 CreateCollider();
             }
         }
@@ -129,7 +129,7 @@ namespace MarchingCubesImproved
             _vertexBufferBinding =
                 new VertexBufferBinding(vbo, VertexPositionNormalTexture.Layout, verts.Length);
             _indexBufferBinding = new IndexBufferBinding(ibo, is32Bit: true, count: tris.Length);
-            mesh = new Mesh()
+            _mesh = new Mesh()
             {
                 Draw = new MeshDraw()
                 {
@@ -143,33 +143,33 @@ namespace MarchingCubesImproved
                 }
             };
 
-            modelComponent = new ModelComponent()
+            _modelComponent = new ModelComponent()
             {
                 Model = new Model()
                 {
-                    mesh,
-                    material
+                    _mesh,
+                    Material
                 }
             };
 
-            Entity.Add(modelComponent);
+            Entity.Add(_modelComponent);
 
             // Bounding box for culling (stops rendering the mesh when the camera isn't looking at it)
-            mesh.BoundingBox = MathHelpers.FromPoints(verts);
-            mesh.BoundingSphere = BoundingSphere.FromBox(mesh.BoundingBox);
+            _mesh.BoundingBox = MathHelpers.FromPoints(verts);
+            _mesh.BoundingSphere = BoundingSphere.FromBox(_mesh.BoundingBox);
             CreateCollider();
         }
 
         void CreateCollider()
         {
-            colliderComponent = new StaticColliderComponent();
+            _colliderComponent = new StaticColliderComponent();
 
             var shape = new StaticMeshColliderShape(colVerts, tris,
                 Vector3.One);
 
-            colliderComponent.ColliderShape = shape;
-            colliderComponent.CanSleep = true;
-            Entity.Add(colliderComponent);
+            _colliderComponent.ColliderShape = shape;
+            _colliderComponent.CanSleep = true;
+            Entity.Add(_colliderComponent);
         }
 
         public Point GetPoint(int x, int y, int z)
@@ -179,7 +179,7 @@ namespace MarchingCubesImproved
 
         public void SetDensity(float density, int x, int y, int z)
         {
-            points[x, y, z].density = density;
+            points[x, y, z].Density = density;
         }
 
         public void SetDensity(float density, Vector3Int pos)

@@ -8,8 +8,8 @@ namespace MarchingCubesImproved
 {
     public class EditTerrain : AsyncScript
     {
-        public CameraComponent camComp;
-        public World world;
+        public CameraComponent CamComp;
+        public World World;
 
         private int _range = 3;
         private float _force = 0.1f;
@@ -42,7 +42,7 @@ namespace MarchingCubesImproved
         private void RaycastToTerrain(bool addTerrain)
         {
             var result =
-                MathHelpers.ScreenPositionToWorldPositionRaycast(Input.MousePosition, camComp, this.GetSimulation());
+                MathHelpers.ScreenPositionToWorldPositionRaycast(Input.MousePosition, CamComp, this.GetSimulation());
             if (result.Succeeded)
             {
                 if (result.Collider.Entity != null)
@@ -79,12 +79,12 @@ namespace MarchingCubesImproved
 
                         float modificationAmount = force / distance * 0.5f * buildModifier;
 
-                        float oldDensity = world.GetDensity(offsetX, offsetY, offsetZ);
+                        float oldDensity = World.GetDensity(offsetX, offsetY, offsetZ);
                         float newDensity = oldDensity - modificationAmount;
 
                         newDensity = newDensity.Clamp01();
 
-                        world.SetDensity(newDensity, offsetX, offsetY, offsetZ, true);
+                        World.SetDensity(newDensity, offsetX, offsetY, offsetZ, true);
                     }
                 }
             }
